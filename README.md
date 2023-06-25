@@ -108,7 +108,7 @@ docker-compose ps
 |          IMAGES                       | NAMES                |        DESCRIPTIONS         |
 |:-------------------------------------:|:---------------------|:---------------------------:|
 |       nginx:1.19.3                    | foodgram_gateway     |   контейнер HTTP-сервера    |
-|       postgres:12.4                   | db                   |    контейнер базы данных    |
+|       postgres:13.0-alpine            | db                   |    контейнер базы данных    |
 | getchdnk/foodgram-backend:latest      | foodgram_backend     | контейнер приложения Django |
 | getchdnk/foodgram-frontend:latest     | foodgram_frontend    | контейнер приложения React  |
 
