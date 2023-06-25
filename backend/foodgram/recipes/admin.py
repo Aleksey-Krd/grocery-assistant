@@ -13,6 +13,7 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = (IngredientsInline, )
     list_filter = ('author', 'name', 'tags',)
     search_fields = ('name',)
+
     def count_favorites(self, obj):
         return obj.favorites.count()
     count_favorites.short_description = 'Добавлений в избранное'
@@ -22,4 +23,3 @@ class RecipeAdmin(admin.ModelAdmin):
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'measurement_unit',)
     list_filter = ('name',)
-

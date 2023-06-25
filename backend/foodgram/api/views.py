@@ -30,7 +30,6 @@ class CustomUserViewSet(UserViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     pagination_class = LimitOffsetPagination
 
-
     @action(
         detail=False,
         methods=('get',),
@@ -41,7 +40,8 @@ class CustomUserViewSet(UserViewSet):
         queryset = User.objects.filter(follow__user=request.user)
         if queryset:
             pages = self.paginate_queryset(queryset)
-            serializer = SubscribeSerializer(pages, many=True, context={'request': request})
+            serializer = SubscribeSerializer(
+                pages, many=True, context={'request': request})
             return self.get_paginated_response(serializer.data)
         return Response(
             {'Внимание!': 'У вас нет подписок!'},
@@ -67,29 +67,31 @@ class CustomUserViewSet(UserViewSet):
                     {'Ошибка!': 'Нельзя подписаться на себя!'},
                     status=status.HTTP_400_BAD_REQUEST)
             Follow.objects.create(user=user, author=author).save()
-            serializer = SubscribeSerializer(author, many=False, context={'request': request})
+            serializer = SubscribeSerializer(
+                author, many=False, context={'request': request})
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         if request.method == 'DELETE':
-            if (unfollow:=Follow.objects.filter(user=user.id, author=author.id)).exists():
+            if (unfollow := Follow.objects.filter(
+                    user=user.id,
+                    author=author.id)).exists():
                 unfollow.delete()
                 return Response(
                     {'Успешно!': f'Вы отписались от пользователя: {author}'},
                     status=status.HTTP_204_NO_CONTENT
                 )
             return Response(
-                {'Ошибка!': f'Вы не подписаны на пользователя: {author}'}, 
+                {'Ошибка!': f'Вы не подписаны на пользователя: {author}'},
                 status=status.HTTP_400_BAD_REQUEST
-            )   
+            )
 
 
 class TagViewSet(ListRetriveViewSet):
     """Вьюсет Тегов"""
-    
     queryset = Tag.objects.all()
     serializer_class = TagsSerializer
     pagination_class = None
     permission_classes = (AllowAny,)
-    http_method_names=('get',)
+    http_method_names = ('get',)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
@@ -133,14 +135,17 @@ class RecipeViewSet(ModelViewSet):
         if request.method == 'POST':
             if Favorite.objects.filter(user=user, recipe=recipe).exists():
                 return Response(
-                    {'Ошибка!': f'Рецепт: {recipe.name} уже есть в избранном!'},
+                    {'Ошибка!':
+                     f'Рецепт: {recipe.name} уже есть в избранном!'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             Favorite.objects.create(user=user, recipe=recipe).save()
             serializer = AddFavoritesSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        if (favorite:= Favorite.objects.filter(user=user, recipe=recipe)).exists():
+        if (favorite := Favorite.objects.filter(
+                user=user,
+                recipe=recipe)).exists():
             favorite.delete()
             return Response(
                 {'Упешно!': f'Рецепт: {recipe.name} удалён из избранного'},
@@ -167,18 +172,23 @@ class RecipeViewSet(ModelViewSet):
         if request.method == 'POST':
             if ShoppingCart.objects.filter(user=user, recipe=recipe).exists():
                 return Response(
-                    {'Ошибка!': f'Рецепт: {recipe.name} уже есть в списке покупок!'},
+                    {'Ошибка!':
+                     f'Рецепт: {recipe.name} уже есть в списке покупок!'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
             ShoppingCart.objects.create(user=user, recipe=recipe)
             serializer = AddFavoritesSerializer(recipe)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        if (shopcart:= ShoppingCart.objects.filter(user=user, recipe__id=pk)).exists():
+        if (shopcart := ShoppingCart.objects.filter(
+                user=user,
+                recipe__id=pk)).exists():
             shopcart.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(
-            {'Ошибка!': f'Нельзя удалить рецепт: {recipe.name} - его нет в списке покупок!'},
+            {'Ошибка!':
+             'Нельзя удалить рецепт:'
+             f'{recipe.name} - его нет в списке покупок!'},
             status=status.HTTP_400_BAD_REQUEST
         )
 
@@ -204,7 +214,7 @@ class RecipeViewSet(ModelViewSet):
     )
     def download_shopping_cart(self, request):
         """Передача файла покупок"""
-        
+
         ingredients = IngredientInRecipe.objects.filter(
             recipe__shopping_recipe__user=request.user).values(
             'ingredient__name',
