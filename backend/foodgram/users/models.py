@@ -21,7 +21,8 @@ class User(AbstractUser):
         max_length=150,
         unique=True,
         db_index=True,
-        help_text=_('Требуется. 150 символов или меньше. Буквы, цифры и @/./+/-/_'),
+        help_text=_(
+            'Требуется. 150 символов или меньше. Буквы, цифры и @/./+/-/_'),
         validators=[username_validator],
         error_messages={
             'unique': "Такой username уже используется!"

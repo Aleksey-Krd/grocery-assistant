@@ -11,11 +11,10 @@ class IngredientFilter(FilterSet):
     class Meta:
         model = Ingredient
         fields = ('name', )
-    
 
 
 class RecipeFilter(django_filters.FilterSet):
-    
+
     tags = django_filters.filters.ModelMultipleChoiceFilter(
         queryset=Tag.objects.all(),
         field_name='tags__slug',
@@ -41,11 +40,10 @@ class RecipeFilter(django_filters.FilterSet):
 
     def favorites_filter(self, queryset, name, value):
         return self.new_queryset(queryset, value, Favorite)
-    
+
     def shoppingcart_filter(self, queryset, name, value):
         return self.new_queryset(queryset, value, ShoppingCart)
 
-        
     class Meta:
         model = Recipe
         fields = ('tags', 'author', )
