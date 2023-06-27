@@ -1,4 +1,5 @@
-from django.core.validators import MinValueValidator, RegexValidator
+from django.core.validators import (MaxValueValidator, MinValueValidator,
+                                    RegexValidator)
 from django.db import models
 from users.models import User
 
@@ -29,7 +30,6 @@ class Tag(models.Model):
         verbose_name='Уникальный слаг')
 
     class Meta:
-
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
         constraints = (
@@ -56,13 +56,11 @@ class Ingredient(models.Model):
         verbose_name='Единица измерения')
 
     class Meta:
-
         ordering = ('name',)
         verbose_name = 'Ингредиент'
         verbose_name_plural = 'Ингредиенты'
 
     def __str__(self):
-
         return f'{self.name}, {self.measurement_unit}'
 
 
@@ -111,6 +109,7 @@ class Recipe(models.Model):
         'Время приготовления',
         validators=[
             MinValueValidator(1, message='Минимальное значение 1!'),
+            MaxValueValidator(480, message='Максимальное значение 480!')
         ],
         blank=False
     )
@@ -121,13 +120,11 @@ class Recipe(models.Model):
     )
 
     class Meta:
-
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
         ordering = ('-created',)
 
     def __str__(self):
-
         return self.name
 
 
@@ -150,11 +147,11 @@ class IngredientInRecipe(models.Model):
         verbose_name='Количество',
         validators=[
             MinValueValidator(1, message='Минимальное количество 1!'),
+            MaxValueValidator(3000, message='Максимальное занчени 3000!')
         ]
     )
 
     class Meta:
-
         verbose_name = 'Ингредиенты'
         verbose_name_plural = 'Ингредиенты'
         constraints = [
@@ -165,7 +162,6 @@ class IngredientInRecipe(models.Model):
         ]
 
     def __str__(self):
-
         return f'{self.ingredient} {self.recipe}'
 
 
@@ -185,7 +181,6 @@ class TagInRecipe(models.Model):
         help_text='Выберите рецепт')
 
     class Meta:
-
         verbose_name = 'Тег рецепта'
         verbose_name_plural = 'Теги рецепта'
         constraints = [
@@ -194,7 +189,6 @@ class TagInRecipe(models.Model):
         ]
 
     def __str__(self):
-
         return f'{self.tag} {self.recipe}'
 
 
@@ -215,7 +209,6 @@ class ShoppingCart(models.Model):
     )
 
     class Meta:
-
         verbose_name = 'Список покупок'
         verbose_name_plural = 'Списки покупок'
         constraints = [
@@ -225,7 +218,6 @@ class ShoppingCart(models.Model):
         ]
 
     def __str__(self):
-
         return f'{self.user} {self.recipe}'
 
 
@@ -246,7 +238,6 @@ class Favorite(models.Model):
     )
 
     class Meta:
-
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
         constraints = [
@@ -256,5 +247,4 @@ class Favorite(models.Model):
         ]
 
     def __str__(self):
-
         return f'{self.user} {self.recipe}'

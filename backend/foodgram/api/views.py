@@ -1,10 +1,7 @@
-from django.db.models import Sum
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from djoser.views import UserViewSet
-from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
-                            ShoppingCart, Tag)
+from recipes.models import Favorite, Ingredient, Recipe, ShoppingCart, Tag
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.pagination import LimitOffsetPagination
@@ -191,33 +188,3 @@ class RecipeViewSet(ModelViewSet):
              f'{recipe.name} - его нет в списке покупок!'},
             status=status.HTTP_400_BAD_REQUEST
         )
-
-    @staticmethod
-    def ingredients_to_txt(ingredients):
-        """Вывод рецептов списком в списке покупок"""
-
-        shopping_list = ''
-        for ingredient in ingredients:
-            shopping_list += (
-                f"{ingredient['ingredient__name']}  - "
-                f"{ingredient['sum']}"
-                f"({ingredient['ingredient__measurement_unit']})\n"
-            )
-        return shopping_list
-
-    @action(
-        detail=False,
-        methods=('get',),
-        permission_classes=(IsAuthenticated,),
-        url_path='download_shopping_cart',
-        url_name='download_shopping_cart',
-    )
-    def download_shopping_cart(self, request):
-        """Передача файла покупок"""
-
-        ingredients = IngredientInRecipe.objects.filter(
-            recipe__shopping_recipe__user=request.user).values(
-            'ingredient__name',
-            'ingredient__measurement_unit').annotate(sum=Sum('amount'))
-        shopping_list = self.ingredients_to_txt(ingredients)
-        return HttpResponse(shopping_list, content_type='text/plain')
