@@ -17,7 +17,6 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ../backend/foodgram/:/app/
       - data_data:/app/data/
       - static_data:/app/static/
       - media_data:/app/media/
