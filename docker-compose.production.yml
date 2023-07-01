@@ -32,9 +32,6 @@ services:
       - frontend
       - backend
     volumes:
-      - type: bind
-        source: ./default.conf
-        target: /etc/nginx/conf.d/default.conf
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
       - ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
@@ -42,6 +39,7 @@ services:
       - media_production:/var/html/media/
     ports:
       - 8000:80
+    command: /bin/bash -c "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf
 
 volumes:
   postgres_production:
