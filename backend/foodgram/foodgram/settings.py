@@ -7,9 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = get_random_secret_key()
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG_STATUS')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['130.193.40.50', '127.0.0.1', 'localhost', 'foodgram-go.zapto.org']
 
 
 INSTALLED_APPS = [
@@ -65,8 +65,8 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB', default='postgres'),
         'USER': os.getenv('POSTGRES_USER', default='postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
-        'HOST': os.getenv('DB_HOST', default='db'),
-        'PORT': os.getenv('DB_PORT', default='5432')
+        'HOST': os.getenv('DB_HOST', default='db_host'),
+        'PORT': os.getenv('DB_PORT', default='54322')
     }
 }
 
