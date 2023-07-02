@@ -65,8 +65,17 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: "infra/docker-compose.production.yml"
-        target: "foodgram/docker-compose.production.yml"
+        source: "infra/docker-compose.production.yml,default.conf"
+        target: "foodgram"
+    - name: Copy docs via ssh key
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        source: "docs/openapi-schema.yml,redoc.html"
+        target: "foodgram"
     - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@v0.1.10
       with:
@@ -76,7 +85,7 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           sudo apt update
-          cd foodgram
+          cd foodgram/infra
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
