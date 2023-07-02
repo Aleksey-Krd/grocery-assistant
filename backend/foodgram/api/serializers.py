@@ -1,7 +1,10 @@
 import base64
+import re
 
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext as _
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from recipes.models import (Favorite, Ingredient, IngredientInRecipe, Recipe,
                             ShoppingCart, Tag)
@@ -238,6 +241,18 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
             if ingredients.count(ingredient) > 1:
                 raise serializers.ValidationError(
                     'Не может быть одинаковых ингредиентов в рецепте!')
+        return value
+
+    def validate_name(self, value):
+        if value.isdigit():
+            raise ValidationError(
+                _("Название рецепта не может состоять только из цифр"),
+            )
+        pattern = re.compile(r'^[\wа-яА-Я]{1,200}$')
+        if not pattern.match(value):
+            raise ValidationError(
+                _("Название рецепта не может содержать символы кроме _"),
+            )
         return value
 
     def ingredients_in_recipe(self, recipe, ingredients):
