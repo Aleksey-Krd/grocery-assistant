@@ -1,7 +1,6 @@
 ![foodgram-project-react Workflow Status](https://github.com/Aleksey-Krd/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 # Продуктовый помощник Foodgram 
 
-
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=56C0C0&color=008080)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat&logo=Django&logoColor=56C0C0&color=008080)](https://www.djangoproject.com/)
 [![Django REST Framework](https://img.shields.io/badge/-Django%20REST%20Framework-464646?style=flat&logo=Django%20REST%20Framework&logoColor=56C0C0&color=008080)](https://www.django-rest-framework.org/)
@@ -107,8 +106,8 @@ docker-compose ps
 
 |          IMAGES                       | NAMES                |        DESCRIPTIONS         |
 |:-------------------------------------:|:---------------------|:---------------------------:|
-|       nginx:1.19.3                    | foodgram_gateway     |   контейнер HTTP-сервера    |
-|       postgres:13.0-alpine            | db                   |    контейнер базы данных    |
+|       nginx:1.22.1                    | foodgram_gateway     |   контейнер HTTP-сервера    |
+|       postgres:13.10                  | db                   |    контейнер базы данных    |
 | getchdnk/foodgram-backend:latest      | foodgram_backend     | контейнер приложения Django |
 | getchdnk/foodgram-frontend:latest     | foodgram_frontend    | контейнер приложения React  |
 
@@ -129,17 +128,8 @@ docker-compose exec backend python manage.py collectstatic --no-input
 
 ### Заполните базу тестовыми данными:
 ```bash
-docker-compose exec backend python manage.py loaddata data.json  
+docker-compose exec backend python manage.py loaddata dump.json  
 ```
-
-
-### Основные адреса: 
-
-| Адрес                 | Описание |
-|:----------------------|:---------|
-| localhost           | Главная страница |
-| localhost/admin/     | Для входа в панель администратора |
-| localhost/api/docs/  | Описание работы API |
 
 ## Пользовательские роли
 | Функционал                                                                                                                | Неавторизованные пользователи |  Авторизованные пользователи | Администратор  |
@@ -177,4 +167,15 @@ docker-compose exec backend python manage.py loaddata data.json
 ### Автор:  
 _Сосов Алексей_<br>
 **email**: _getchdnk.gmq@yandex.ru_<br>
-**telegram** _@WalkA1one_ 
+**telegram** _@WalkA1one_
+
+
+### Основные адреса: 
+
+|              Адрес               |            Описание               |
+|:---------------------------------|:----------------------------------|
+| foodgram-go.zapto.org            | Главная страница                  |
+| foodgram-go.zapto.org/admin/     | Для входа в панель администратора |
+| foodgram-go.zapto.org/api/docs/  | Описание работы API               |
+Логин администратора: getchdnk@mail.ru
+Пароль администратора: 01470147
