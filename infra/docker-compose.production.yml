@@ -38,8 +38,8 @@ services:
       - backend
     volumes:
       - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
-      - ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
+      - ../docs/redoc.html:/app/data/api/docs/redoc.html
+      - ../docs/openapi-schema.yml:/app/data/api/docs/openapi-schema.yml
       - static_production:/app/static/
       - media_production:/app/media/
       - data_production:/app/data/
