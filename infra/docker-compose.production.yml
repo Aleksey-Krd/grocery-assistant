@@ -17,15 +17,15 @@ services:
     depends_on:
       - db
     volumes:
-      - data_production:/code/foodgram/data/
-      - static_production:/code/foodgram/static/
-      - media_production:/code/foodgram/media/
+      - data_production:/code/data/
+      - static_production:/code/static/
+      - media_production:/code/media/
 
   frontend:
     container_name: foodgram_frontend
     image: getchdnk/foodgram_frontend:latest
     volumes:
-      - ../frontend/:/code/foodgram/data/frontend/result_build/
+      - ../frontend/:/code/data/frontend/result_build/
   
   gateway:
     container_name: foodgram_gateway
@@ -35,12 +35,12 @@ services:
       - frontend
       - backend
     volumes:
-      - ../frontend/build:/code/foodgram/data/frontend/result_build/
-      - ../docs/redoc.html:/code/foodgram/data/api/docs/redoc.html
-      - ../docs/openapi-schema.yml:/code/foodgram/data/api/docs/openapi-schema.yml
-      - static_production:/code/foodgram/static/
-      - media_production:/code/foodgram/media/
-      - data_production:/code/foodgram/data/
+      - ../frontend/build:/code/data/frontend/result_build/
+      - ../docs/redoc.html:/code/data/api/docs/redoc.html
+      - ../docs/openapi-schema.yml:/code/data/api/docs/openapi-schema.yml
+      - static_production:/code/static/
+      - media_production:/code/media/
+      - data_production:/code/data/
     ports:
       - "8000:80"
     restart: always
