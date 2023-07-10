@@ -43,8 +43,7 @@ services:
       - 80:80
     volumes:
       - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
-      - ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
+      - ../docs/redoc.html:/app/data/api/docs/redoc.html
       - static_data:/app/static/
       - media_data:/app/media/
       - data_data:/app/data/
