@@ -13,13 +13,13 @@ services:
   backend:
     container_name: foodgram_backend
     build:
-      context: ../backend/foodgram
-      dockerfile: Dockerfile
+      context: ../backend
+      dockerfile: ../backend/foodgram/Dockerfile
     restart: always
     volumes:
-      - data_data:/app/data/
-      - static_data:/app/static/
-      - media_data:/app/media/
+      - data_data:/code/foodgram/data/
+      - static_data:/code/foodgram/static/
+      - media_data:/code/foodgram/media/
     depends_on:
       - db
     env_file:
@@ -31,7 +31,7 @@ services:
       context: ../frontend
       dockerfile: Dockerfile
     volumes:
-      - ../frontend/:/app/result_build/
+      - ../frontend/:/code/foodgram/data/frontend/result_build/
     depends_on:
       - backend
 
@@ -42,11 +42,12 @@ services:
     ports:
       - 80:80
     volumes:
-      - ../frontend/build:/usr/share/nginx/html/
-      - ../docs/redoc.html:/usr/share/nginx/html/api/docs/redoc.html
-      - ../docs/openapi-schema.yml:/usr/share/nginx/html/api/docs/openapi-schema.yml
-      - static_data:/var/html/static/
-      - media_data:/var/html/media/
+      - ../frontend/build:/code/foodgram/data/frontend/result_build/
+      - ../docs/redoc.html:/code/foodgram/data/api/docs/redoc.html
+      - ../docs/openapi-schema.yml:/code/foodgram/data/api/docs/openapi-schema.yml
+      - static_data:/code/foodgram/static/
+      - media_data:/code/foodgram/media/
+      - data_data:/code/foodgram/data/
     depends_on:
       - backend
       - frontend
