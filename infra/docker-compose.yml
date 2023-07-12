@@ -30,6 +30,7 @@ services:
     build:
       context: ../frontend
       dockerfile: Dockerfile
+    restart: always
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
@@ -44,6 +45,7 @@ services:
     volumes:
       - ../frontend/build:/usr/share/nginx/html/
       - ../docs/redoc.html:/app/data/api/docs/redoc.html
+      - ../docs/openapi-schema.yml:/app/data/api/docs/openapi-schema.yml
       - static_data:/app/static/
       - media_data:/app/media/
       - data_data:/app/data/
