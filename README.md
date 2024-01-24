@@ -1,5 +1,5 @@
 ![foodgram-project-react Workflow Status](https://github.com/Aleksey-Krd/foodgram-project-react/actions/workflows/main.yml/badge.svg)
-# Продуктовый помощник Foodgram 
+# Продуктовый помощник grocery assistant
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat&logo=Python&logoColor=56C0C0&color=008080)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat&logo=Django&logoColor=56C0C0&color=008080)](https://www.djangoproject.com/)
